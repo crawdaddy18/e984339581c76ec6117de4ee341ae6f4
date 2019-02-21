@@ -47,9 +47,15 @@ PROCESSORS_STREAM = settings.PROCESSORS_STREAM # Output Stream path
 OUTPUT_STREAM = settings.VIDEO_STREAM
 ALLOWED_LAG = settings.ALLOWED_LAG
 
+# Create a connection to the mapr-db:
+host = "mapr02.wired.carnoustie"
+username = "mapr"
+password = "maprmapr18"
 
-# Build Ojai MapRDB access
-connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+# Create database connection
+#connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+connection_str = "{}:5678?auth=basic;user={};password={};ssl=true;sslCA=/opt/mapr/conf/ssl_truststore.pem;sslTargetNameOverride={}".format(host,username,password,host)
+
 connection = ConnectionFactory().get_connection(connection_str=connection_str)
 processors_table = connection.get_or_create_store(PROCESSORS_TABLE)
 dronedata_table = connection.get_or_create_store(DRONEDATA_TABLE)

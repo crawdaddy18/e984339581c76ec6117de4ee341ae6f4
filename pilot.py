@@ -106,9 +106,15 @@ current_angle = 0.0
 
 time_tracker = {"min":1000,"max":0,"count":0,"avg":0}
 
+# Create a connection to the mapr-db:
+host = "mapr02.wired.carnoustie"
+username = "mapr"
+password = "maprmapr18"
 
 # Create database connection
-connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+#connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+connection_str = "{}:5678?auth=basic;user={};password={};ssl=true;sslCA=/opt/mapr/conf/ssl_truststore.pem;sslTargetNameOverride={}".format(host,username,password,host)
+
 connection = ConnectionFactory().get_connection(connection_str=connection_str)
 zones_table = connection.get_or_create_store(ZONES_TABLE)
 dronedata_table = connection.get_or_create_store(DRONEDATA_TABLE)

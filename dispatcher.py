@@ -33,11 +33,15 @@ SOURCE_STREAM = settings.VIDEO_STREAM
 PROCESSORS_STREAM = settings.PROCESSORS_STREAM
 PROCESSORS_TABLE = settings.PROCESSORS_TABLE
 
-
-
+# Create a connection to the mapr-db:
+host = "mapr02.wired.carnoustie"
+username = "mapr"
+password = "maprmapr18"
 
 # Create database connection
-connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+#connection_str = CLUSTER_IP + ":5678?auth=basic;user=mapr;password=mapr;ssl=false"
+connection_str = "{}:5678?auth=basic;user={};password={};ssl=true;sslCA=/opt/mapr/conf/ssl_truststore.pem;sslTargetNameOverride={}".format(host,username,password,host)
+
 connection = ConnectionFactory().get_connection(connection_str=connection_str)
 processors_table = connection.get_or_create_store(PROCESSORS_TABLE)
 
